@@ -1,0 +1,17 @@
+BlogMyName Version 0.0.1
+
+* Remplacer dans le fichier "firefox_extension/chrome/button.js"
+  Le nom de votre blog, l'utilisateur/administrateur de ce blog et son mot de passe.
+
+* Générer le fichier .xpi :
+
+firefox_extension/creerXpi.sh
+
+Installer cette extension avec le navigateur Firefox 13
+
+Mette le bouton dans le barre d'outils.
+
+* Lorsque vous naviguerez sur un site, cliquer sur le bouton "BlogMyName", une fenêtre apparaît, modifier le texte de l'article 
+qui contient par défaut le lien de la page à marqué.
+
+Puis cliquer sur le bouton [Envoyer l'article] et l'article est directement publié sur le blog
