@@ -92,8 +92,8 @@ if(isset($_GET["blog"]) && isset($_GET["utilisateur"]) && isset($_GET['motdepass
        $utilisateur = $_GET["utilisateur"];
        $motdepasse = $_GET["motdepasse"];
 
-       $texte = $_GET['site'];
-       $titre = recupererTitreArticle($texte); 
+       $texte = "<a href='".$_GET['site']."'>".$_GET['site']."</a>";
+       $titre = recupererTitreArticle($_GET['site']); 
 }
 
 if( isset($_POST["blog"]) && isset($_POST["utilisateur"]) && isset($_POST['motdepasse']) &&
