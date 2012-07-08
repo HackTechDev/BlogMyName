@@ -106,7 +106,13 @@ if( isset($_POST["blog"]) && isset($_POST["utilisateur"]) && isset($_POST['motde
             $titre = $_POST['titre'];
             $texte = $_POST['texte'];
 
-            echo "Article #" . ecrireArticle($blog, $utilisateur, $motdepasse, $titre, $texte, true) . " a &eacute;t&eacute; cr&eacute;er.<br/><br/>";
+            $etat = $_POST['etat'];
+
+            if($etat == "brouillon"){            
+                echo "Article #" . ecrireArticle($blog, $utilisateur, $motdepasse, $titre, $texte, false) . " a &eacute;t&eacute; cr&eacute;er et en brouillon<br/><br/>";
+            }else{
+                echo "Article #" . ecrireArticle($blog, $utilisateur, $motdepasse, $titre, $texte, true) . " a &eacute;t&eacute; cr&eacute;er et publié<br/><br/>";
+            }    
  }
 ?>
 Blog : <a href="http://<?php echo $blog; ?>"><?php echo $blog; ?></a><br/><br/>
@@ -127,7 +133,7 @@ Blog : <a href="http://<?php echo $blog; ?>"><?php echo $blog; ?></a><br/><br/>
 						Titre : 
 					</td>
 					<td>    
-						<input type="text" value="<?php echo $titre; ?>" id="titre" name="titre"><br/>
+						<input type="text" value="<?php echo $titre; ?>" id="titre" name="titre" size="40"><br/>
 					</td>
 				</tr>
 				<tr>
@@ -135,7 +141,7 @@ Blog : <a href="http://<?php echo $blog; ?>"><?php echo $blog; ?></a><br/><br/>
 						Cat&eacute;gorie : 
 					</td>
 					<td>
-						<select id="categories" name="categories">
+						<select id="categories" name="categories" >
 							<?php echo afficherCategories($blog, $utilisateur, $motdepasse); ?><br/>
 						</select>
 					</td>
@@ -145,7 +151,7 @@ Blog : <a href="http://<?php echo $blog; ?>"><?php echo $blog; ?></a><br/><br/>
 						Mots-clefs : 
 					</td>
 					<td>
-						<input type="text" value="" id="motcles" name="motcles"><br/>
+						<input type="text" value="" id="motcles" name="motcles" size="40"><br/>
 					</td>
 				</tr>
 				<tr>
