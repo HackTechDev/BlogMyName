@@ -3,6 +3,7 @@
         <title>
             BlogMyName
         </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />    
     <link href="style.css" rel="stylesheet" media="all" type="text/css"> 
     </head>
 <body>
@@ -76,15 +77,23 @@ function ecrireArticle($blog, $utilisateur, $motdepasse, $titre, $texte, $apubli
     return $idArticle;  
 }
 
-$site ="";
+function recupererTitreArticle($fichier){
+    static $fp, $ligne, $regs;
+    $fp = @fopen($fichier, "r");
+    if (!$fp) return FALSE;
+    $ligne = fgets($fp, 1024);
+    while (!eregi("<TITLE>(.*)</TITLE>", $ligne) and !feof($fp)) $ligne = fgets($fp, 1024);
+    if (eregi("<TITLE>(.*)</TITLE>", $ligne, $regs)) return $regs[1];
+    else return FALSE;
+}
 
 if(isset($_GET["blog"]) && isset($_GET["utilisateur"]) && isset($_GET['motdepasse']) && isset($_GET['site'])){
        $blog = $_GET["blog"];
        $utilisateur = $_GET["utilisateur"];
        $motdepasse = $_GET["motdepasse"];
-       $site = $_GET['site'];
 
-       $titre = "Liens du jour"; 
+       $texte = $_GET['site'];
+       $titre = recupererTitreArticle($texte); 
 }
 
 if( isset($_POST["blog"]) && isset($_POST["utilisateur"]) && isset($_POST['motdepasse']) &&
@@ -144,7 +153,7 @@ Blog : <a href="http://<?php echo $blog; ?>"><?php echo $blog; ?></a><br/><br/>
 						Texte : 
 					</td>
 					<td>
-						<textarea  id="texte" name="texte" rows="10" cols="40"><?php echo $site; echo $texte; ?></textarea><br/>
+						<textarea  id="texte" name="texte" rows="10" cols="40"><?php echo $texte; ?></textarea><br/>
 					</td>
 				</tr>
 				<tr>
@@ -152,7 +161,7 @@ Blog : <a href="http://<?php echo $blog; ?>"><?php echo $blog; ?></a><br/><br/>
 						Etat :
 					</td>
 					 <td>
-						<input type="checkbox" id="etat" name="etat" value="brouillon" checked > Brouillon
+						<input type="checkbox" id="etat" name="etat" value="brouillon"> Brouillon
 					</td>
 				</tr>
 				<tr>
