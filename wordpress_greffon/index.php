@@ -67,8 +67,8 @@ function afficherCategories($blog, $utilisateur, $motdepasse){
 function ecrireArticle($blog, $utilisateur, $motdepasse, $titre, $texte, $apublie){
     
     $client = new IXR_Client('http://'.$blog.'/xmlrpc.php');
-    $content['title'] = $titre;
-    $content['description'] = $texte;
+    $content['title'] = stripslashes($titre);
+    $content['description'] = stripslashes($texte);
 
     if (!$client->query('metaWeblog.newPost','', $utilisateur, $motdepasse, $content, $apublie)) {
         die('Erreur creation article' . $client->getErrorCode() ." : ". $client->getErrorMessage());  
@@ -80,11 +80,18 @@ function ecrireArticle($blog, $utilisateur, $motdepasse, $titre, $texte, $apubli
 function recupererTitreArticle($fichier){
     static $fp, $ligne, $regs;
     $fp = @fopen($fichier, "r");
-    if (!$fp) return FALSE;
+    if (!$fp){ 
+        return FALSE;
+    }
     $ligne = fgets($fp, 1024);
-    while (!eregi("<TITLE>(.*)</TITLE>", $ligne) and !feof($fp)) $ligne = fgets($fp, 1024);
-    if (eregi("<TITLE>(.*)</TITLE>", $ligne, $regs)) return $regs[1];
-    else return FALSE;
+    while (!eregi("<TITLE>(.*)</TITLE>", $ligne) and !feof($fp)){ 
+        $ligne = fgets($fp, 1024);
+    }
+    if (eregi("<TITLE>(.*)</TITLE>", $ligne, $regs)){ 
+        return $regs[1];
+    }else{ 
+        return FALSE;
+    }
 }
 
 if(isset($_GET["blog"]) && isset($_GET["utilisateur"]) && isset($_GET['motdepasse']) && isset($_GET['site'])){
@@ -95,6 +102,8 @@ if(isset($_GET["blog"]) && isset($_GET["utilisateur"]) && isset($_GET['motdepass
        $texte = "<a href='".$_GET['site']."'>".$_GET['site']."</a>";
        $titre = recupererTitreArticle($_GET['site']); 
 }
+
+$edition = true;
 
 if( isset($_POST["blog"]) && isset($_POST["utilisateur"]) && isset($_POST['motdepasse']) &&
     isset($_POST["action"]) && isset($_POST["titre"]) && isset($_POST['texte'])){
@@ -108,12 +117,16 @@ if( isset($_POST["blog"]) && isset($_POST["utilisateur"]) && isset($_POST['motde
 
             $etat = $_POST['etat'];
 
+            $edition = false;
+
             if($etat == "brouillon"){            
                 echo "Article #" . ecrireArticle($blog, $utilisateur, $motdepasse, $titre, $texte, false) . " a &eacute;t&eacute; cr&eacute;er et en brouillon<br/><br/>";
             }else{
                 echo "Article #" . ecrireArticle($blog, $utilisateur, $motdepasse, $titre, $texte, true) . " a &eacute;t&eacute; cr&eacute;er et publié<br/><br/>";
             }    
  }
+
+
 ?>
 Blog : <a href="http://<?php echo $blog; ?>"><?php echo $blog; ?></a><br/><br/>
 <table>
@@ -133,7 +146,7 @@ Blog : <a href="http://<?php echo $blog; ?>"><?php echo $blog; ?></a><br/><br/>
 						Titre : 
 					</td>
 					<td>    
-						<input type="text" value="<?php echo $titre; ?>" id="titre" name="titre" size="40"><br/>
+						<input type="text" value="<?php echo $titre; ?>" id="titre" name="titre" size="40" ><br/>
 					</td>
 				</tr>
 				<tr>
@@ -151,7 +164,7 @@ Blog : <a href="http://<?php echo $blog; ?>"><?php echo $blog; ?></a><br/><br/>
 						Mots-clefs : 
 					</td>
 					<td>
-						<input type="text" value="" id="motcles" name="motcles" size="40"><br/>
+						<input type="text" value="" id="motcles" name="motcles" size="40" ><br/>
 					</td>
 				</tr>
 				<tr>
@@ -159,7 +172,7 @@ Blog : <a href="http://<?php echo $blog; ?>"><?php echo $blog; ?></a><br/><br/>
 						Texte : 
 					</td>
 					<td>
-						<textarea  id="texte" name="texte" rows="10" cols="40"><?php echo $texte; ?></textarea><br/>
+						<textarea  id="texte" name="texte" rows="10" cols="40" ><?php echo $texte; ?></textarea><br/>
 					</td>
 				</tr>
 				<tr>
@@ -167,14 +180,24 @@ Blog : <a href="http://<?php echo $blog; ?>"><?php echo $blog; ?></a><br/><br/>
 						Etat :
 					</td>
 					 <td>
-						<input type="checkbox" id="etat" name="etat" value="brouillon"> Brouillon
+						<input type="checkbox" id="etat" name="etat" value="brouillon" > Brouillon
 					</td>
 				</tr>
 				<tr>
 					<td>
 					</td>
 					<td>
+                    <?php
+                    if($edition == true){
+                    ?>    
 						<input type="submit" value="Poster l'article" name="action">
+                    <?php
+                    }else{
+                    ?>
+                        <input type="button" name="fermer" id="fermer" value="Fermer" onclick="javascript:window.close();" />
+                    <?php
+                    }
+                    ?>
 					</td>
 				</tr>
 			</table>
