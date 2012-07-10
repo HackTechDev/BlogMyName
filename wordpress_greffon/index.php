@@ -149,6 +149,7 @@ Blog : <a href="http://<?php echo $blog; ?>"><?php echo $blog; ?></a><br/><br/>
 						<input type="text" value="<?php echo $titre; ?>" id="titre" name="titre" size="40" ><br/>
 					</td>
 				</tr>
+<!--
 				<tr>
 					<td>
 						Cat&eacute;gorie : 
@@ -159,6 +160,7 @@ Blog : <a href="http://<?php echo $blog; ?>"><?php echo $blog; ?></a><br/><br/>
 						</select>
 					</td>
 				</tr>
+-->
 				<tr>
 					<td>
 						Mots-clefs : 
