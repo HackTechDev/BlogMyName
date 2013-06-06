@@ -2,16 +2,16 @@ CustomButton = {
 
 1: function () {
 
-    const blog = "steamcyberpunk.net";
+    const blog = "monsite.com";
     const site = window.content.location.href;
     
     // Serveur de production
-    const serveur= "http://steamcyberpunk.net/dev/blogmyname/";
+    const serveur= "http://monsite.com/dev/blogmyname/";
     // Serveur de test
     //const serveur = "http://localhost/blog2blog/";
 
-    const utilisateur = "xxxxxxxxxxxxxxxxxx";
-    const motdepasse = "zzzzzzzzzzzzzzz";
+    const utilisateur = "nom_utilisateur";
+    const motdepasse = "mot_passe";
 
     // Ouvre une fenêtre avec l'affichage du site internet
     var windowObjectReference;  

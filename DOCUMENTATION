@@ -8,11 +8,11 @@ Indiqez Le nom de votre blog, l'utilisateur/administrateur de ce blog et son mot
 
 firefox_extension/creerXpi.sh
 
-Installer cette extension avec le navigateur Firefox 13
+* Installer cette extension avec le navigateur Firefox > 13
 
-Mettre le bouton dans le barre d'outils.
+* Ajouter le bouton "BlogMyName" dans la barre d'outils : [Affichage][Barre d'outils][Personnaliser...]
 
-* Copier le répertoire wordpress_extension dans le répertoire de votre blog Wordpress
+* Copier le répertoire blogmyname/ dans le répertoire /dev/ de votre blog Wordpress
 
 * Lorsque vous naviguerez sur un site, cliquer sur le bouton "BlogMyName", une fenêtre apparaît, modifier le texte de l'article 
 qui contient par défaut le lien de la page à marqué.
